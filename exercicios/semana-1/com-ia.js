@@ -9,7 +9,7 @@ function inverterString(str) {
 // Função que conta as vogais em uma string (maiúsculas e minúsculas)
 // Exemplo: "programacao" -> 5
 function contarVogais(str) {
-    return (str.match(/[aeiou]/gi) || []).length;
+    return (str.match(/[aeiouáàãâéêíóôõú]/gi) || []).length;
 }
 
 // Função que encontra o maior número em um array

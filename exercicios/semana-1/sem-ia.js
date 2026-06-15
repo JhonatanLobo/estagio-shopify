@@ -11,7 +11,7 @@ function contarVogais(str) {
     if (typeof str !== 'string') return 0;
     
     let count = 0;
-    const vogais = "aeiouAEIOU";
+    const vogais = "aeiouAEIOUáàãâéêíóôõúÁÀÃÂÉÊÍÓÔÕÚ";
     
     for (let char of str) {
         if (vogais.includes(char)) {
