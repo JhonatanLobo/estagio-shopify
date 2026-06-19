@@ -1,0 +1,129 @@
+{% comment %}
+Snippet: Product Card
+Uso: {% render 'product-card', product: product, show_badge: true %}
+Parâmetros:
+- product: objeto do produto (obrigatório)
+- show_badge: exibir badge de promoção (opcional, default: true)
+- image_width: largura da imagem (opcional, default: 400)
+{% endcomment %}
+
+{%- comment -%} 1. IMAGEM do produto {%- endcomment -%}
+{% assign largura = image_width | default: 400 %}
+
+<div class="custom-product-card">
+  {% if product.featured_image %}
+    <div class="custom-product-card__image-container">
+      <img src="{{ product.featured_image | image_url: width: largura }}" alt="{{ product.title | escape }}">
+    </div>
+  {% endif %}
+
+  <div class="custom-product-card__info-container">
+    {% if show_badge != false %}
+      {% if product.compare_at_price > product.price %}
+        {% assign desconto = product.compare_at_price | minus: product.price %}
+        {% assign porcentagem = desconto | times: 100 | divided_by: product.compare_at_price | floor %}
+        <span class="custom-badge-promocao">-{{ porcentagem }}%</span>
+      {% elsif product.available == false %}
+        <span class="custom-badge-esgotado">Esgotado</span>
+      {% endif %}
+    {% endif %}
+
+    <h3>
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    <p class="product-card__preco">
+      {{ product.price | money }}
+      {% if product.compare_at_price > product.price and show_badge != false %}
+        <s>{{ product.compare_at_price | money }}</s>
+      {% endif %}
+    </p>
+
+    {% if product.available %}
+      <button type="button" class="custom-product-card__button">Adicionar ao carrinho</button>
+    {% else %}
+      <button type="button" class="custom-product-card__button" disabled>Indisponível</button>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  .custom-product-card {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+    transition: box-shadow 0.3s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+  }
+  .custom-product-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  }
+  .custom-product-card__image-container {
+    width: 100% !important;
+    height: 220px !important;
+    background: #f8fafc !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+  .custom-product-card__image-container img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+  .custom-product-card__info-container {
+    padding: 1rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+    gap: 0.5rem !important;
+  }
+  .custom-product-card h3 {
+    font-size: 1rem !important;
+    margin: 0 !important;
+    font-weight: 600 !important;
+  }
+  .custom-product-card h3 a {
+    color: #1e293b !important;
+    text-decoration: none !important;
+  }
+  .product-card__preco {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    margin: 0 !important;
+  }
+  .product-card__preco s {
+    font-size: 0.85rem !important;
+    color: #94a3b8 !important;
+    font-weight: 400 !important;
+  }
+  .custom-badge-promocao, .custom-badge-esgotado {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    color: #fff !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+  }
+  .custom-badge-promocao { background-color: #ef4444 !important; }
+  .custom-badge-esgotado { background-color: #64748b !important; }
+  .custom-product-card__button {
+    width: 100% !important;
+    padding: 0.6rem !important;
+    background-color: #1e293b !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    margin-top: auto !important;
+  }
+</style>

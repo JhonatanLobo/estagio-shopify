@@ -1,0 +1,126 @@
+{% schema %}
+{
+  "name": "Grade de Produtos",
+  "settings": [
+    {
+      "type": "text",
+      "id": "titulo",
+      "label": "Título da seção",
+      "default": "Nossos Produtos"
+    },
+    {
+      "type": "collection",
+      "id": "colecao",
+      "label": "Coleção"
+    },
+    {
+      "type": "range",
+      "id": "colunas",
+      "label": "Colunas",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "limite",
+      "label": "Máximo de produtos",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Exibir badges de promoção",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "cor_fundo",
+      "label": "Cor de fundo da seção",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Grade de Produtos"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="custom-product-grid" style="background-color: {{ section.settings.cor_fundo }}">
+  {% if section.settings.titulo != blank %}
+    <h2 class="custom-product-grid__titulo">{{ section.settings.titulo }}</h2>
+  {% endif %}
+
+  {% if section.settings.colecao != blank %}
+    {% assign colecao = collections[section.settings.colecao] %}
+    
+    <div class="custom-product-grid__container" style="--colunas: {{ section.settings.colunas }}">
+      {% for product in colecao.products limit: section.settings.limite %}
+        {% render 'product-card', product: product, show_badge: section.settings.show_badge %}
+      {% endfor %}
+    </div>
+
+    {% if colecao.products.size > section.settings.limite %}
+      <div class="custom-product-grid__ver-mais">
+        <a href="{{ colecao.url }}" class="custom-product-grid__link">
+          Ver todos os {{ colecao.products.size }} produtos
+        </a>
+      </div>
+    {% endif %}
+  {% else %}
+    <p class="custom-product-grid__vazio">Selecione uma coleção nas configurações da seção.</p>
+  {% endif %}
+</section>
+
+<style>
+  .custom-product-grid {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 2rem !important;
+    box-sizing: border-box !important;
+  }
+  .custom-product-grid__titulo {
+    text-align: center !important;
+    margin-bottom: 2rem !important;
+    font-size: 1.75rem !important;
+    color: #0f172a !important;
+  }
+  .custom-product-grid__container {
+    display: grid !important;
+    grid-template-columns: repeat(var(--colunas), 1fr) !important;
+    gap: 1.5rem !important;
+  }
+  .custom-product-grid__ver-mais {
+    text-align: center !important;
+    margin-top: 2rem !important;
+  }
+  .custom-product-grid__link {
+    display: inline-block !important;
+    padding: 0.75rem 2rem !important;
+    border: 2px solid #1e293b !important;
+    color: #1e293b !important;
+    text-decoration: none !important;
+    border-radius: 4px !important;
+  }
+  .custom-product-grid__vazio {
+    text-align: center !important;
+    color: #64748b !important;
+  }
+  
+  @media (max-width: 768px) {
+    .custom-product-grid__container {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+  @media (max-width: 480px) {
+    .custom-product-grid__container {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>
