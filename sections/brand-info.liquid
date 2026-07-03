@@ -1,0 +1,43 @@
+{%- assign brand_reference = product.metafields.custom.marca.value -%}
+
+{%- if brand_reference != blank -%}
+  <div class="brand-info-section" style="padding: 40px 20px; background-color: #f9f9f9; border-top: 1px solid #e8e8e8; margin-top: 30px;">
+    <div style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+      
+      {%- if brand_reference.logo != blank -%}
+        <div class="brand-logo" style="flex: 1; min-width: 150px; text-align: center;">
+          <img src="{{ brand_reference.logo | image_url: width: 200 }}" alt="{{ brand_reference.nome }}" loading="lazy" style="max-width: 150px; height: auto;">
+        </div>
+      {%- endif -%}
+
+      <div class="brand-text" style="flex: 2; min-width: 280px;">
+        <h3 style="margin: 0 0 10px 0; font-size: 24px; color: #333;">Sobre a {{ brand_reference.nome }}</h3>
+        <p style="margin: 0 0 15px 0; line-height: 1.6; color: #666;">{{ brand_reference.descricao }}</p>
+        
+        <p style="margin: 0 0 10px 0; font-size: 14px; color: #888;">
+          <strong>País de Origem:</strong> {{ brand_reference.pais_origem }}
+        </p>
+
+        {%- if brand_reference.site != blank -%}
+          <a href="{{ brand_reference.site }}" target="_blank" rel="noopener" style="display: inline-block; padding: 10px 20px; background-color: #000; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 14px;">
+            Visitar site oficial
+          </a>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Informações da Marca",
+  "tag": "section",
+  "class": "section",
+  "presets": [
+    {
+      "name": "Informações da Marca"
+    }
+  ]
+}
+{% endschema %}

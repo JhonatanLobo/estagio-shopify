@@ -1,0 +1,64 @@
+{%- liquid
+  assign material_value = product.metafields.custom.material.value
+  assign instrucoes_value = product.metafields.custom.instrucoes_cuidado.value
+  assign video_value = product.metafields.custom.video_url.value
+-%}
+
+{%- if material_value != blank or instrucoes_value != blank or video_value != blank -%}
+  <div class="product-extra-info" style="padding: 20px; max-width: 1200px; margin: 0 auto;">
+    <h2 class="product-extra-info__titulo">{{ section.settings.titulo | escape }}</h2>
+    
+    {%- if material_value != blank -%}
+      <div class="product-extra-info__item" style="margin-bottom: 15px;">
+        <strong>Material:</strong>
+        <span>{{ material_value | escape }}</span>
+      </div>
+    {%- endif -%}
+
+    {%- if instrucoes_value != blank -%}
+      <div class="product-extra-info__item" style="margin-bottom: 15px; border: 1px solid #e8e8e8; padding: 15px; border-radius: 4px;">
+        <strong>Instruções de Cuidado:</strong>
+        <p style="white-space: pre-line; margin-top: 5px;">{{ instrucoes_value | escape }}</p>
+      </div>
+    {%- endif -%}
+
+    {%- if video_value != blank -%}
+      <div class="product-extra-info__item" style="margin-bottom: 15px;">
+        <strong>Vídeo Demonstrativo:</strong>
+        <div class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-top: 10px;">
+          {%- if video_value contains 'youtube.com' or video_value contains 'youtu.be' -%}
+            {%- assign video_id = video_value | split: 'v=' | last | split: '&' | first -%}
+            {%- if video_value contains 'youtu.be/' -%}
+              {%- assign video_id = video_value | split: 'youtu.be/' | last | split: '?' | first -%}
+            {%- endif -%}
+            <iframe src="https://www.youtube.com/embed/{{ video_id }}" title="Vídeo do produto" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" loading="lazy" allowfullscreen></iframe>
+          {%- else -%}
+            {%- if video_value contains 'vimeo.com' -%}
+              {%- assign video_id = video_value | split: 'vimeo.com/' | last | split: '?' | first -%}
+              <iframe src="https://player.vimeo.com/video/{{ video_id }}" title="Vídeo do produto" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" loading="lazy" allowfullscreen></iframe>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Informações Extras",
+  "settings": [
+    {
+      "type": "text",
+      "id": "titulo",
+      "label": "Título da seção",
+      "default": "Informações do Produto"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Informações Extras"
+    }
+  ]
+}
+{% endschema %}
