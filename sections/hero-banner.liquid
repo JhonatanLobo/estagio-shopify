@@ -236,7 +236,7 @@
                   <img
                     src="{{ block.settings.imagem_bloco | image_url: width: 400 }}"
                     alt="{{ alt_text | escape }}"
-                    loading="lazy"
+                    loading="eager"
                     width="{{ block.settings.largura_maxima }}"
                     height="{{ block.settings.largura_maxima | divided_by: block.settings.imagem_bloco.aspect_ratio | round }}"
                   >
