@@ -13,7 +13,13 @@ Parâmetros:
 <div class="custom-product-card">
   {% if product.featured_image %}
     <div class="custom-product-card__image-container">
-      <img src="{{ product.featured_image | image_url: width: largura }}" alt="{{ product.title | escape }}">
+    <img 
+      src="{{ product.featured_image | image_url: width: largura }}" 
+      alt="{{ product.title | escape }}" 
+      loading="lazy" 
+      width="{{ product.featured_image.width }}" 
+      height="{{ product.featured_image.height }}"
+    >
     </div>
   {% endif %}
 
