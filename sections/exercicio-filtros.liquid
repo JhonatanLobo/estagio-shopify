@@ -58,7 +58,8 @@
           d) Imagem redimensionada para 300px de largura – usar image_url com width: 300
           {%- endcomment -%}
           {% if product.featured_image %}
-            <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title | escape }}">
+            <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title | escape }}" loading="lazy" width="{{ product.featured_image.width }}" 
+            height="{{ product.featured_image.height }}">
           {% endif %}
 
           {%- comment -%}

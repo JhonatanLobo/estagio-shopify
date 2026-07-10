@@ -92,7 +92,13 @@ Estagiário: Jhonatan Teixeira Lôbo
     {% for product in collections.all.products limit: section.settings.quantidade_produtos %}
       <div class="produto-item">
         {% if product.featured_image %}
-          <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title }}">
+          <img 
+            src="{{ product.featured_image | image_url: width: 300 }}" 
+            alt="{{ product.featured_image.alt | default: product.title }}"
+            loading="lazy"
+            width="{{ product.featured_image.width }}"
+            height="{{ product.featured_image.height }}"
+          >
         {% endif %}
         <h3>{{ product.title }}</h3>
         <p class="preco">{{ product.price | money }}</p>
